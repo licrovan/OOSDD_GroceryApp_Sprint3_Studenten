@@ -12,10 +12,13 @@ namespace Grocery.App.ViewModels
         private readonly GlobalViewModel _global;
 
         [ObservableProperty]
-        private string email = "user3@mail.com";
+        private string email = "user@mail.com";
 
         [ObservableProperty]
-        private string password = "user3";
+        private string username = "Username";
+
+        [ObservableProperty]
+        private string password = "user1234";
 
         [ObservableProperty]
         private string registerMessage;
@@ -30,7 +33,7 @@ namespace Grocery.App.ViewModels
         private void Register()
         {
             // register user with email and password inside a database
-
+            Client? newClient = _authService.Register(Username, Email, Password);
 
             // login immidately after registering
             Client? authenticatedClient = _authService.Login(Email, Password);
