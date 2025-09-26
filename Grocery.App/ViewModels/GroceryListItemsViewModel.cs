@@ -45,7 +45,7 @@ namespace Grocery.App.ViewModels
         {
             AvailableProducts.Clear();
             foreach (Product p in _productService.GetAll())
-                if (MyGroceryListItems.FirstOrDefault(g => g.ProductId == p.Id) == null  && p.Stock > 0 && (searchText == "" || p.Name.ToLower().Contains(searchText.ToLower())))
+                if (MyGroceryListItems.FirstOrDefault(g => g.ProductId == p.Id) == null && p.Stock > 0 && (searchText == "" || p.Name.ToLower().Contains(searchText.ToLower())))
                     AvailableProducts.Add(p);
         }
 
