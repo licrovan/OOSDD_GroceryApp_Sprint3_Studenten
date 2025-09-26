@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Grocery.App.Views;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Grocery.App.ViewModels
 {
@@ -47,12 +48,17 @@ namespace Grocery.App.ViewModels
         }
 
         [RelayCommand]
-        private async Task Register()
+        private void Register()
         {
             if (Application.Current != null)
             {
-                Application.Current.MainPage = new AppShell();
-                await Shell.Current.GoToAsync("Register");
+                // Get the RegisterViewModel from the service provider
+                var serviceProvider = Application.Current.Handler?.MauiContext?.Services;
+                if (serviceProvider != null)
+                {
+                    var registerViewModel = serviceProvider.GetRequiredService<RegisterViewModel>();
+                    Application.Current.MainPage = new RegisterView(registerViewModel);
+                }
             }
         }
     }
