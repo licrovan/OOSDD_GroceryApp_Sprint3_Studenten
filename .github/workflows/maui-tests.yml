@@ -34,10 +34,10 @@ jobs:
         run: dotnet restore --runtime win-x64
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ./GroceryApp.sln
  
       - name: Bouw de applicatie
         run: dotnet build --configuration Release --no-restore
  
       - name: Voer unit tests uit
-        run: dotnet test --configuration Release --no-restore --no-build --verbosity normal
+        run: dotnet test ./TestCore/TestCore.csproj --configuration Release --no-restore --no-build --verbosity normal
