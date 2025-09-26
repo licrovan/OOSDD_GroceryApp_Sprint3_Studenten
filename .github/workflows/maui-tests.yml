@@ -34,7 +34,7 @@ jobs:
         run: dotnet restore --runtime win-x64
 
       - name: Restore dependencies
-        run: dotnet restore GroceryApp.sln
+        run: dotnet restore
  
       - name: Bouw de applicatie
         run: dotnet build --configuration Release --no-restore
