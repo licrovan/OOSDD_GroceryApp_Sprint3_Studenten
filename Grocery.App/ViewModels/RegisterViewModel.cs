@@ -29,6 +29,10 @@ namespace Grocery.App.ViewModels
         [RelayCommand]
         private void Register()
         {
+            // register user with email and password inside a database
+
+
+            // login immidately after registering
             Client? authenticatedClient = _authService.Login(Email, Password);
             if (authenticatedClient != null)
             {

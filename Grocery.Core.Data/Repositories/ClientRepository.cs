@@ -33,5 +33,13 @@ namespace Grocery.Core.Data.Repositories
         {
             return clientList;
         }
+
+        public Client Add(string Name, string EmailAddress, string PasswordHash)
+        {
+            int newId = clientList.Max(c => c.Id) + 1;
+            Client newClient = new Client(newId, Name, EmailAddress, PasswordHash);
+            clientList.Add(newClient);
+            return newClient;
+        }
     }
 }
