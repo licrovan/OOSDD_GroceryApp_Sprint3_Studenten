@@ -15,7 +15,9 @@ namespace Grocery.App.ViewModels
         private readonly IGroceryListItemsService _groceryListItemsService;
         private readonly IProductService _productService;
         private readonly IFileSaverService _fileSaverService;
-        
+
+        private string searchText = "";
+
         public ObservableCollection<GroceryListItem> MyGroceryListItems { get; set; } = [];
         public ObservableCollection<Product> AvailableProducts { get; set; } = [];
 
@@ -43,7 +45,7 @@ namespace Grocery.App.ViewModels
         {
             AvailableProducts.Clear();
             foreach (Product p in _productService.GetAll())
-                if (MyGroceryListItems.FirstOrDefault(g => g.ProductId == p.Id) == null  && p.Stock > 0)
+                if (MyGroceryListItems.FirstOrDefault(g => g.ProductId == p.Id) == null && p.Stock > 0 && (searchText == "" || p.Name.ToLower().Contains(searchText.ToLower())))
                     AvailableProducts.Add(p);
         }
 
@@ -68,6 +70,13 @@ namespace Grocery.App.ViewModels
             _productService.Update(product);
             AvailableProducts.Remove(product);
             OnGroceryListChanged(GroceryList);
+        }
+
+        [RelayCommand]
+        public void PerformSearch(string searchInput)
+        {
+            this.searchText = searchInput;
+            GetAvailableProducts();
         }
 
         [RelayCommand]

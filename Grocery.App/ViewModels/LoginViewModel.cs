@@ -1,8 +1,10 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Grocery.App.Views;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Grocery.App.ViewModels
 {
@@ -18,7 +20,7 @@ namespace Grocery.App.ViewModels
         private string password = "user3";
 
         [ObservableProperty]
-        private string loginMessage;
+        private string loginMessage = string.Empty;
 
         public LoginViewModel(IAuthService authService, GlobalViewModel global)
         { //_authService = App.Services.GetServices<IAuthService>().FirstOrDefault();
@@ -34,11 +36,29 @@ namespace Grocery.App.ViewModels
             {
                 LoginMessage = $"Welkom {authenticatedClient.Name}!";
                 _global.Client = authenticatedClient;
-                Application.Current.MainPage = new AppShell();
+                if (Application.Current != null)
+                {
+                    Application.Current.MainPage = new AppShell();
+                }
             }
             else
             {
                 LoginMessage = "Ongeldige inloggegevens.";
+            }
+        }
+
+        [RelayCommand]
+        private void Register()
+        {
+            if (Application.Current != null)
+            {
+                // Get the RegisterViewModel from the service provider
+                var serviceProvider = Application.Current.Handler?.MauiContext?.Services;
+                if (serviceProvider != null)
+                {
+                    var registerViewModel = serviceProvider.GetRequiredService<RegisterViewModel>();
+                    Application.Current.MainPage = new RegisterView(registerViewModel);
+                }
             }
         }
     }
